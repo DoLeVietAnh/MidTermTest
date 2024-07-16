@@ -6,13 +6,16 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const IntroSlide = ({ navigation }) => {
   return (
     <View style={styles.container}>
+      <StatusBar hidden={true} />
       <ImageBackground
         source={require("./assets/intro.jpg")}
         style={styles.imageBackground}
@@ -37,36 +40,41 @@ const IntroSlide = ({ navigation }) => {
   );
 };
 
+function IconButton({ name, text, backgroundColor }) {
+  return (
+    <TouchableOpacity style={[styles.iconButton, { backgroundColor }]}>
+      <Icon name={name} size={20} color="white" style={styles.iconLeft} />
+      <Text style={styles.iconButtonText}>{text}</Text>
+    </TouchableOpacity>
+  );
+}
+
 const SignIn = () => {
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("./assets/image.png")} // Replace with your image path
-        style={styles.imageSigninBackground}
-        resizeMode="cover"
-      >
-        <View style={styles.signInContent}>
-          <Text style={styles.signInTitle}>Get your groceries</Text>
-          <Text style={styles.signInTitle}>with nectar</Text>
+    <View style={styles.signInContainer}>
+      <StatusBar barStyle="dark-content" hidden={false} />
+      <Image source={require("./assets/image.png")} style={styles.topImage} />
+      <Text style={styles.signInText}>Get your groceries</Text>
+      <Text style={styles.nectarText}>with nectar</Text>
+      <View style={styles.inputContainer}>
+        <Image source={require("./assets/flag.png")} style={styles.phoneIcon} />
+        <Text style={styles.phoneText}>+880</Text>
+      </View>
 
-          <View style={styles.flagContainer}>
-            <Image source={require("./assets/flag.png")} style={styles.flag} />
-            <Text style={styles.flagText}>+880</Text>
-          </View>
+      <View style={styles.lineBreak} />
 
-          <View style={styles.lineBreak} />
-
-          <Text style={styles.helloText}>or connect with social media</Text>
-
-          <TouchableOpacity style={styles.signInButtonFB}>
-            <Text style={styles.buttonTextFB}>Continue with Facebook</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.signInButtonGG}>
-            <Text style={styles.buttonTextGG}>Continue with Google</Text>
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
+      <Text style={styles.socialText}>Or connect with social media</Text>
+      <IconButton
+        name="google"
+        text="Continue with Google"
+        backgroundColor="#4B70F5"
+        style={{ marginBottom: 20 }}
+      />
+      <IconButton
+        name="facebook"
+        text="Continue with Facebook"
+        backgroundColor="#3B5998"
+      />
     </View>
   );
 };
@@ -78,12 +86,12 @@ const App = () => {
         <Stack.Screen
           name="Intro"
           component={IntroSlide}
-          options={{ headerShown: false }} // Hide the header for the Intro screen
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="SignIn"
           component={SignIn}
-          options={{ headerShown: false }} // Hide the header for the SignIn screen
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -141,75 +149,87 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-  signInContent: {
-    paddingTop: 100,
-    padding: 20,
-    width: "80%",
+  signInContainer: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#FCFCFC",
+    hue: "hsl(0, 0%, 99%)",
   },
-  signInTitle: {
-    fontSize: 32,
+  topImage: {
+    width: "100%",
+    height: 450,
+    resizeMode: "cover",
+  },
+  signInText: {
+    marginTop: 20,
     color: "black",
-    textAlign: "left",
-    marginBottom: 10,
+    fontSize: 30,
     fontWeight: "bold",
+    textAlign: "left",
+    alignSelf: "flex-start",
+    marginLeft: 36,
   },
-  flagContainer: {
+  nectarText: {
+    color: "black",
+    fontSize: 30,
+    fontWeight: "bold",
+    textAlign: "left",
+    alignSelf: "flex-start",
+    marginLeft: 36,
+    paddingBottom: 20,
+  },
+  inputContainer: {
+    width: "80%",
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
-    paddingBottom: 10,
-  },
-  flag: {
-    width: 30,
-    height: 20,
-    marginRight: 10,
-  },
-  flagText: {
-    fontSize: 20,
-    color: "black",
-    fontWeight: "bold",
+    marginVertical: 20,
+    alignSelf: "flex-start",
+    marginLeft: 36,
   },
   lineBreak: {
     height: 1,
-    width: "100%",
-    backgroundColor: "black",
+    width: "82.5%",
+    backgroundColor: "lightgray",
     marginBottom: 20,
   },
-  helloText: {
+  phoneIcon: {
+    height: 30,
+    width: 50,
+    marginRight: 10,
+    height: 35,
+    width: 35,
+  },
+  phoneText: {
     fontSize: 20,
-    color: "lightgray",
+    color: "black",
+  },
+  socialText: {
+    color: "gray",
+    fontSize: 15,
+    marginVertical: 20,
+    marginBottom: 45,
     textAlign: "center",
+  },
+  iconButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginHorizontal: 10,
+    width: 300,
+    alignItems: "center",
     marginBottom: 20,
+    borderRadius: 10,
+    height: 50,
   },
-  signInButtonFB: {
-    backgroundColor: "#3B5998",
-    paddingVertical: 10,
-    borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 10,
-    width: "100%",
+  iconLeft: {
+    marginRight: 45,
   },
-  signInButtonGG: {
-    backgroundColor: "#DB4437",
-    paddingVertical: 10,
-    borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 10,
-    width: "100%",
-  },
-
-  imageSigninBackground: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonTextFB: {
-    backgroundColor: "#3B5998",
-  },
-  buttonTextGG: {
-    backgroundColor: "#DB4437",
+  iconButtonText: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });
 
